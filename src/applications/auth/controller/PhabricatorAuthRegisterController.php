@@ -186,7 +186,7 @@ final class PhabricatorAuthRegisterController
       ->setDefaultUsername($default_username)
       ->setDefaultEmail($default_email)
       ->setDefaultRealName($default_realname)
-      ->setCanEditUsername(true)
+      ->setCanEditUsername(false)
       ->setCanEditEmail(($default_email === null))
       ->setCanEditRealName(true)
       ->setShouldVerifyEmail(false);
