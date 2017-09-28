@@ -9,6 +9,7 @@
 phutil_register_library_map(array(
   '__library_version__' => 2,
   'class' => array(
+    'AlamancServiceEditConduitAPIMethod' => 'applications/almanac/conduit/AlamancServiceEditConduitAPIMethod.php',
     'AlmanacAddress' => 'applications/almanac/util/AlmanacAddress.php',
     'AlmanacBinding' => 'applications/almanac/storage/AlmanacBinding.php',
     'AlmanacBindingDisableController' => 'applications/almanac/controller/AlmanacBindingDisableController.php',
@@ -36,6 +37,7 @@ phutil_register_library_map(array(
     'AlmanacDAO' => 'applications/almanac/storage/AlmanacDAO.php',
     'AlmanacDevice' => 'applications/almanac/storage/AlmanacDevice.php',
     'AlmanacDeviceController' => 'applications/almanac/controller/AlmanacDeviceController.php',
+    'AlmanacDeviceEditConduitAPIMethod' => 'applications/almanac/conduit/AlmanacDeviceEditConduitAPIMethod.php',
     'AlmanacDeviceEditController' => 'applications/almanac/controller/AlmanacDeviceEditController.php',
     'AlmanacDeviceEditEngine' => 'applications/almanac/editor/AlmanacDeviceEditEngine.php',
     'AlmanacDeviceEditor' => 'applications/almanac/editor/AlmanacDeviceEditor.php',
@@ -2667,6 +2669,7 @@ phutil_register_library_map(array(
     'PhabricatorDifferentialConfigOptions' => 'applications/differential/config/PhabricatorDifferentialConfigOptions.php',
     'PhabricatorDifferentialExtractWorkflow' => 'applications/differential/management/PhabricatorDifferentialExtractWorkflow.php',
     'PhabricatorDifferentialManagementWorkflow' => 'applications/differential/management/PhabricatorDifferentialManagementWorkflow.php',
+    'PhabricatorDifferentialMigrateHunkWorkflow' => 'applications/differential/management/PhabricatorDifferentialMigrateHunkWorkflow.php',
     'PhabricatorDifferentialRevisionTestDataGenerator' => 'applications/differential/lipsum/PhabricatorDifferentialRevisionTestDataGenerator.php',
     'PhabricatorDiffusionApplication' => 'applications/diffusion/application/PhabricatorDiffusionApplication.php',
     'PhabricatorDiffusionBlameSetting' => 'applications/settings/setting/PhabricatorDiffusionBlameSetting.php',
@@ -3196,7 +3199,6 @@ phutil_register_library_map(array(
     'PhabricatorMustVerifyEmailController' => 'applications/auth/controller/PhabricatorMustVerifyEmailController.php',
     'PhabricatorMySQLConfigOptions' => 'applications/config/option/PhabricatorMySQLConfigOptions.php',
     'PhabricatorMySQLFileStorageEngine' => 'applications/files/engine/PhabricatorMySQLFileStorageEngine.php',
-    'PhabricatorMySQLFulltextStorageEngine' => 'applications/search/fulltextstorage/PhabricatorMySQLFulltextStorageEngine.php',
     'PhabricatorMySQLSearchHost' => 'infrastructure/cluster/search/PhabricatorMySQLSearchHost.php',
     'PhabricatorMySQLSetupCheck' => 'applications/config/check/PhabricatorMySQLSetupCheck.php',
     'PhabricatorNamedQuery' => 'applications/search/storage/PhabricatorNamedQuery.php',
@@ -3861,6 +3863,7 @@ phutil_register_library_map(array(
     'PhabricatorRepositoryRefCursorPHIDType' => 'applications/repository/phid/PhabricatorRepositoryRefCursorPHIDType.php',
     'PhabricatorRepositoryRefCursorQuery' => 'applications/repository/query/PhabricatorRepositoryRefCursorQuery.php',
     'PhabricatorRepositoryRefEngine' => 'applications/repository/engine/PhabricatorRepositoryRefEngine.php',
+    'PhabricatorRepositoryRefPosition' => 'applications/repository/storage/PhabricatorRepositoryRefPosition.php',
     'PhabricatorRepositoryRepositoryPHIDType' => 'applications/repository/phid/PhabricatorRepositoryRepositoryPHIDType.php',
     'PhabricatorRepositorySchemaSpec' => 'applications/repository/storage/PhabricatorRepositorySchemaSpec.php',
     'PhabricatorRepositorySearchEngine' => 'applications/repository/query/PhabricatorRepositorySearchEngine.php',
@@ -4930,6 +4933,7 @@ phutil_register_library_map(array(
     'require_celerity_resource' => 'applications/celerity/api.php',
   ),
   'xmap' => array(
+    'AlamancServiceEditConduitAPIMethod' => 'PhabricatorEditEngineAPIMethod',
     'AlmanacAddress' => 'Phobject',
     'AlmanacBinding' => array(
       'AlmanacDAO',
@@ -4975,6 +4979,7 @@ phutil_register_library_map(array(
       'PhabricatorExtendedPolicyInterface',
     ),
     'AlmanacDeviceController' => 'AlmanacController',
+    'AlmanacDeviceEditConduitAPIMethod' => 'PhabricatorEditEngineAPIMethod',
     'AlmanacDeviceEditController' => 'AlmanacDeviceController',
     'AlmanacDeviceEditEngine' => 'PhabricatorEditEngine',
     'AlmanacDeviceEditor' => 'AlmanacEditor',
@@ -5367,6 +5372,7 @@ phutil_register_library_map(array(
     'DifferentialChangeset' => array(
       'DifferentialDAO',
       'PhabricatorPolicyInterface',
+      'PhabricatorDestructibleInterface',
     ),
     'DifferentialChangesetDetailView' => 'AphrontView',
     'DifferentialChangesetFileTreeSideNavBuilder' => 'Phobject',
@@ -5461,6 +5467,7 @@ phutil_register_library_map(array(
     'DifferentialHunk' => array(
       'DifferentialDAO',
       'PhabricatorPolicyInterface',
+      'PhabricatorDestructibleInterface',
     ),
     'DifferentialHunkParser' => 'Phobject',
     'DifferentialHunkParserTestCase' => 'PhabricatorTestCase',
@@ -7999,6 +8006,7 @@ phutil_register_library_map(array(
     'PhabricatorDifferentialConfigOptions' => 'PhabricatorApplicationConfigOptions',
     'PhabricatorDifferentialExtractWorkflow' => 'PhabricatorDifferentialManagementWorkflow',
     'PhabricatorDifferentialManagementWorkflow' => 'PhabricatorManagementWorkflow',
+    'PhabricatorDifferentialMigrateHunkWorkflow' => 'PhabricatorDifferentialManagementWorkflow',
     'PhabricatorDifferentialRevisionTestDataGenerator' => 'PhabricatorTestDataGenerator',
     'PhabricatorDiffusionApplication' => 'PhabricatorApplication',
     'PhabricatorDiffusionBlameSetting' => 'PhabricatorInternalSetting',
@@ -8584,7 +8592,6 @@ phutil_register_library_map(array(
     'PhabricatorMustVerifyEmailController' => 'PhabricatorAuthController',
     'PhabricatorMySQLConfigOptions' => 'PhabricatorApplicationConfigOptions',
     'PhabricatorMySQLFileStorageEngine' => 'PhabricatorFileStorageEngine',
-    'PhabricatorMySQLFulltextStorageEngine' => 'PhabricatorFulltextStorageEngine',
     'PhabricatorMySQLSearchHost' => 'PhabricatorSearchHost',
     'PhabricatorMySQLSetupCheck' => 'PhabricatorSetupCheck',
     'PhabricatorNamedQuery' => array(
@@ -9428,6 +9435,7 @@ phutil_register_library_map(array(
     'PhabricatorRepositoryRefCursorPHIDType' => 'PhabricatorPHIDType',
     'PhabricatorRepositoryRefCursorQuery' => 'PhabricatorCursorPagedPolicyAwareQuery',
     'PhabricatorRepositoryRefEngine' => 'PhabricatorRepositoryEngine',
+    'PhabricatorRepositoryRefPosition' => 'PhabricatorRepositoryDAO',
     'PhabricatorRepositoryRepositoryPHIDType' => 'PhabricatorPHIDType',
     'PhabricatorRepositorySchemaSpec' => 'PhabricatorConfigSchemaSpec',
     'PhabricatorRepositorySearchEngine' => 'PhabricatorApplicationSearchEngine',
