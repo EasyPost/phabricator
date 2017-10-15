@@ -175,7 +175,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * So, generally, internal paging must bypass policy controls.
    *
    * This method returns the appropriate viewer, based on the context in which
-   * the paging is occuring.
+   * the paging is occurring.
    *
    * @return PhabricatorUser Viewer for executing paging queries.
    */
@@ -536,7 +536,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    *
    * @param AphrontDatabaseConnection Connection query will execute on.
    * @param list<map> Column description dictionaries.
-   * @param map Additional constuction options.
+   * @param map Additional construction options.
    * @return string Query clause.
    * @task paging
    */
@@ -1697,6 +1697,34 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
           'table' => $ngram_table,
           'ngram' => $ngram,
         );
+      }
+    }
+
+    // Remove common ngrams, like "the", which occur too frequently in
+    // documents to be useful in constraining the query. The best ngrams
+    // are obscure sequences which occur in very few documents.
+
+    if ($flat) {
+      $common_ngrams = queryfx_all(
+        $conn,
+        'SELECT ngram FROM %T WHERE ngram IN (%Ls)',
+        $engine->getCommonNgramsTableName(),
+        ipull($flat, 'ngram'));
+      $common_ngrams = ipull($common_ngrams, 'ngram', 'ngram');
+
+      foreach ($flat as $key => $spec) {
+        $ngram = $spec['ngram'];
+        if (isset($common_ngrams[$ngram])) {
+          unset($flat[$key]);
+          continue;
+        }
+
+        // NOTE: MySQL discards trailing whitespace in CHAR(X) columns.
+        $trim_ngram = rtrim($ngram, ' ');
+        if (isset($common_ngrams[$trim_ngram])) {
+          unset($flat[$key]);
+          continue;
+        }
       }
     }
 
