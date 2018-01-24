@@ -54,12 +54,18 @@ final class DiffusionSearchQueryConduitAPIMethod
     $limit = $request->getValue('limit');
     $offset = $request->getValue('offset');
 
+    if (($path == "") || ($path == '""') || ($path == "''")) {
+      $qpath = ".";
+    } else {
+      $qpath = $path;
+    }
+
     $results = array();
     $future = $repository->getLocalCommandFuture(
       // NOTE: --perl-regexp is available only with libpcre compiled in.
       'grep --extended-regexp --null -n --no-color -f - %s -- %s',
       $drequest->getStableCommit(),
-      $path);
+      $qpath);
 
     // NOTE: We're writing the pattern on stdin to avoid issues with UTF8
     // being mangled by the shell. See T12807.
