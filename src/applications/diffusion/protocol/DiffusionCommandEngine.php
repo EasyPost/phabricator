@@ -170,9 +170,6 @@ abstract class DiffusionCommandEngine extends Phobject {
       // Propagate PHABRICATOR_ENV explicitly. For discussion, see T4155.
     $env['PHABRICATOR_ENV'] = PhabricatorEnv::getSelectedEnvironmentName();
 
-      // we only support running on OpenSSH
-    $env['GIT_SSH_VARIANT'] = 'ssh';
-
     $as_device = $this->getConnectAsDevice();
     $credential_phid = $this->getCredentialPHID();
 
