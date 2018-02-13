@@ -65,7 +65,7 @@ final class DiffusionSearchQueryConduitAPIMethod
       // NOTE: --perl-regexp is available only with libpcre compiled in.
       'grep --extended-regexp --null -n --no-color -f - %s -- %s',
       $drequest->getStableCommit(),
-      $qpath);
+      $path);
 
     // NOTE: We're writing the pattern on stdin to avoid issues with UTF8
     // being mangled by the shell. See T12807.
