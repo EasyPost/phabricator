@@ -370,12 +370,15 @@ final class PhabricatorDatabaseRef
       if ($replica_status !== false) {
         $is_replica = (bool)$replica_status;
         if ($ref->getIsMaster() && $is_replica) {
+          /*
           $ref->setReplicaStatus(self::REPLICATION_MASTER_REPLICA);
           $ref->setReplicaMessage(
             pht(
               'This host has a "master" role, but is replicating data from '.
               'another host ("%s")!',
               idx($replica_status, 'Master_Host')));
+          */
+          $ref->setReplicaStatus(self::REPLICATION_OKAY);
         } else if (!$ref->getIsMaster() && !$is_replica) {
           $ref->setReplicaStatus(self::REPLICATION_REPLICA_NONE);
           $ref->setReplicaMessage(
