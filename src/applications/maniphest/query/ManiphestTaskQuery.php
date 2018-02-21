@@ -767,6 +767,11 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
         'name' => pht('Title'),
         'aliases' => array(self::ORDER_TITLE),
       ),
+      'status' => array(
+        'vector' => array('status', 'id'),
+        'name' => pht('Status'),
+        'aliases' => array('Status (by string)'),
+      ),
     ) + parent::getBuiltinOrders();
 
     // Alias the "newest" builtin to the historical key for it.
@@ -782,6 +787,7 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
         'oldest',
         'closed',
         'title',
+        'status',
       )) + $orders;
 
     return $orders;
