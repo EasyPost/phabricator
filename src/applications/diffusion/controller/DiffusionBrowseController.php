@@ -629,15 +629,18 @@ final class DiffusionBrowseController extends DiffusionController {
       $needs_symbols = isset($repo_languages[$lang]);
     }
 
-    if ($needs_symbols) {
-      Javelin::initBehavior(
-        'repository-crossreference',
-        array(
-          'container' => $id,
-          'lang' => $lang,
-          'repositories' => $symbol_repos,
-        ));
-    }
+    /*
+     * disabled as per EP T4060
+     * if ($needs_symbols) {
+     *  Javelin::initBehavior(
+     *    'repository-crossreference',
+     *    array(
+     *      'container' => $id,
+     *      'lang' => $lang,
+     *      'repositories' => $symbol_repos,
+     *    ));
+     * }
+     */
 
     $corpus = phutil_tag(
       'div',

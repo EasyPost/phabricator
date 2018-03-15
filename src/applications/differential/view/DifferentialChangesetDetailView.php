@@ -134,13 +134,16 @@ final class DifferentialChangesetDetailView extends AphrontView {
 
     $id = $this->getID();
 
-    if ($this->symbolIndex) {
-      Javelin::initBehavior(
-        'repository-crossreference',
-        array(
-          'container' => $id,
-        ) + $this->symbolIndex);
-    }
+    /*
+     * disabled as per EP T4060
+     * if ($this->symbolIndex) {
+     *   Javelin::initBehavior(
+     *     'repository-crossreference',
+     *     array(
+     *       'container' => $id,
+     *     ) + $this->symbolIndex);
+     * }
+    */
 
     $display_filename = $changeset->getDisplayFilename();
     $display_icon = FileTypeIcon::getFileIcon($display_filename);
