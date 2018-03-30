@@ -930,6 +930,19 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return idx($mime_map, $mime_type);
   }
 
+  public function isPDF() {
+    if (!$this->isViewableInBrowser()) {
+      return false;
+    }
+
+    $mime_map = array(
+      'application/pdf' => 'application/pdf',
+    );
+
+    $mime_type = $this->getMimeType();
+    return idx($mime_map, $mime_type);
+  }
+
   public function isTransformableImage() {
     // NOTE: The way the 'gd' extension works in PHP is that you can install it
     // with support for only some file types, so it might be able to handle
@@ -1152,7 +1165,6 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
       $params = array(
         'name' => $builtin->getBuiltinDisplayName(),
-        'ttl.relative' => phutil_units('7 days in seconds'),
         'canCDN' => true,
         'builtin' => $key,
       );
@@ -1648,7 +1660,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
   public function getFieldValuesForConduit() {
     return array(
       'name' => $this->getName(),
-      'dataURI' => $this->getCDNURI(),
+      'dataURI' => $this->getCDNURI('data'),
       'size' => (int)$this->getByteSize(),
     );
   }
