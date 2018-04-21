@@ -295,6 +295,10 @@ final class DiffusionRepositoryController extends DiffusionController {
       $content[] = $readme;
     }
 
+    $revisions = $this->buildOpenRevisions();
+    if ($revisions) {
+      $content[] = $revisions;
+    }
 
     try {
       $branch_button = $this->buildBranchList($drequest);
@@ -622,5 +626,62 @@ final class DiffusionRepositoryController extends DiffusionController {
   private function getBranchLimit() {
     return 15;
   }
+
+  private function buildOpenRevisions() {
+    $viewer = $this->getViewer();
+
+    $drequest = $this->getDiffusionRequest();
+    $repository = $drequest->getRepository();
+    $repositoryPHID = $repository->getPHID();
+
+    $recent = (PhabricatorTime::getNow() - phutil_units('30 days in seconds'));
+
+    $revisions = id(new DifferentialRevisionQuery())
+      ->setViewer($viewer)
+      ->withRepositoryPHIDs(array($repositoryPHID))
+      ->withIsOpen(true)
+      ->withUpdatedEpochBetween($recent, null)
+      ->setOrder(DifferentialRevisionQuery::ORDER_MODIFIED)
+      ->setLimit(10)
+      ->needReviewers(true)
+      ->needFlags(true)
+      ->needDrafts(true)
+      ->execute();
+
+    if (!$revisions) {
+      return null;
+    }
+
+
+    $search_button = id(new PHUIButtonView())
+      ->setTag('a')
+      ->setButtonType(PHUIButtonView::BUTTONTYPE_SIMPLE)
+      ->setIcon('fa-search')
+      ->setText(pht('Show All'))
+      ->setHref(urisprintf("/differential?repositoryPHIDs=%s&statuses=%s#R",
+        $repositoryPHID,
+        "open()"));
+
+    $action_buttons = id(new PHUIButtonBarView())
+      ->addButton($search_button);
+
+    $header = id(new PHUIHeaderView())
+      ->setHeader(pht('Recently Open Revisions'))
+      ->setButtonBar($action_buttons);
+
+    $list = id(new DifferentialRevisionListView())
+      ->setViewer($viewer)
+      ->setRevisions($revisions)
+      ->setNoBox(true);
+
+    $view = id(new PHUIObjectBoxView())
+      ->setHeader($header)
+      ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
+      ->addClass('diffusion-mobile-view')
+      ->appendChild($list);
+
+    return $view;
+  }
+
 
 }
