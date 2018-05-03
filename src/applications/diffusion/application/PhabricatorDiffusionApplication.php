@@ -106,6 +106,9 @@ final class PhabricatorDiffusionApplication extends PhabricatorApplication {
       ')(?P<commit>[a-f0-9]+)'
         => 'DiffusionCommitController',
 
+      '/r(?P<repositoryCallsign>[A-Z]+)'
+        => 'DiffusionRepositoryController',
+
       '/source/(?P<repositoryShortName>[^/]+)'
         => $repository_routes,
 
