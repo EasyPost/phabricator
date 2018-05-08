@@ -80,7 +80,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
     $related_tabs = array();
     $graph_menu = null;
 
-    $graph_limit = 100;
+    $graph_limit = 250;
     $task_graph = id(new ManiphestTaskGraph())
       ->setViewer($viewer)
       ->setSeedPHID($task->getPHID())
