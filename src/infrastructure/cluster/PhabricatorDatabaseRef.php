@@ -29,6 +29,7 @@ final class PhabricatorDatabaseRef
   private $connectionLatency;
   private $connectionStatus;
   private $connectionMessage;
+  private $connectionException;
 
   private $replicaStatus;
   private $replicaMessage;
@@ -456,6 +457,7 @@ final class PhabricatorDatabaseRef
       return false;
     }
 
+    $this->connectionException = null;
     try {
       $connection->openConnection();
       $reachable = true;
@@ -466,6 +468,7 @@ final class PhabricatorDatabaseRef
       // yet.
       throw $ex;
     } catch (Exception $ex) {
+      $this->connectionException = $ex;
       $reachable = false;
     }
 
@@ -507,6 +510,10 @@ final class PhabricatorDatabaseRef
         $this->getHealthRecordCacheKey());
     }
     return $this->healthRecord;
+  }
+
+  public function getConnectionException() {
+    return $this->connectionException;
   }
 
   public static function getActiveDatabaseRefs() {
