@@ -103,12 +103,15 @@ class PhabricatorBarePageView extends AphrontPageView {
       }
     }
 
+    $opensearch_tag = $this->opensearchLink();
+
     return hsprintf(
-      '%s%s%s%s%s',
+      '%s%s%s%s%s%s',
       $viewport_tag,
       $mask_icon,
       $favicon_links,
       $referrer_tag,
+      $opensearch_tag,
       $response->renderResourcesOfType('css'));
   }
 
@@ -178,4 +181,18 @@ class PhabricatorBarePageView extends AphrontPageView {
     return $favicon_links;
   }
 
+  private function opensearchLink() {
+     $logo = PhabricatorEnv::getEnvConfig('ui.logo');
+     $title = idx($logo, 'wordmarkText', 'phabricator');
+
+    return phutil_tag(
+      'link',
+      array(
+        'rel' => 'search',
+        'type' => 'application/opensearchdescription+xml',
+        'title' => $title,
+        'href' => '/opensearch.xml'
+      )
+    );
+  }
 }

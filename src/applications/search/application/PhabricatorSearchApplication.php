@@ -50,7 +50,10 @@ final class PhabricatorSearchApplication extends PhabricatorApplication {
           => 'PhabricatorSearchRelationshipController',
         'source/(?P<relationshipKey>[^/]+)/(?P<sourcePHID>[^/]+)/'
           => 'PhabricatorSearchRelationshipSourceController',
-      ),
+        ),
+        '/' => array(
+          'opensearch.xml' => 'PhabricatorSearchOpensearchController'
+        ),
     );
   }
 
