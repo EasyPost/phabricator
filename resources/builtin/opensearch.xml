@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
-                        xmlns:moz="http://www.mozilla.org/2006/browser/search/">
-  <ShortName>phab</ShortName>
-  <Description>TITLE</Description>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+  <ShortName>phabricator</ShortName>
+  <Description>TITLE full site search</Description>
   <InputEncoding>UTF-8</InputEncoding>
   <Image width="16" height="16" type="image/x-icon">data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAB0UlEQVRIie3Wu2sUURQG8J+ClYJiK2IRQSxUJLELPlLGKop5GSRRGwXFP0JRBFMqWMVHxMUogvioBAUbTREUxMJGRLFIYyGioLGYu3j27qy7m7UJ5MBlL+f7vvPNzLlzdliOpR4r2uBuQz96sDvlnmMWj/Dmf11UF2aw0GTNYHOnZgP4HYpO4xj60jqKG5nxwcWaDYcid7DpH9yNqAT+WCdmF9vQnQ+6w62KhoLoSYb1YyrtV+EqdmSch0E/2sxsUG0/1mX4pZSfxdu0P5Vx1qjt+0gjs0OZ2b2A9eEkXqk/nU/TnWwP/ErGGc7NdpYUmgj4xwybxOUs9y7wx0rqdUfDmyWEfQHvwueUPx3ykyk3rxgI1egtqTcNKxOhbOIshP0n/Ax3W40v6feboq8tR3fJFY0HfC7k5xN2At9D/n3glz3S+ARQf0LvBmwA5/C6pNAHRT/jab2dcRq+HkMZcW2Gn0n5H/ia9lcyzmr8CjWaDoCRQH6cYb14ga1Yj5c4nnEeBH3LI240iC60KsLZoDvShq7OtKIY0I1iA251YlaNA2rH1HXFQNib1jiuqe374GLNqtHqH/B9bGlWrN1PjP3YhT1J+8zfT4y5NmotxxKOP9ORw9t1VtuYAAAAAElFTkSuQmCC</Image>
   <Url type="text/html" template="BASE_URI?script=1&amp;query={searchTerms}"></Url>
+  <Url type="application/opensearchdescription+xml" rel="self" template="OPENSEARCH_URI" />
   <moz:SearchForm>BASE_URI</moz:SearchForm>
 </OpenSearchDescription>

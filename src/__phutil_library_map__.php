@@ -4221,6 +4221,7 @@ phutil_register_library_map(array(
     'PhabricatorSearchManagementWorkflow' => 'applications/search/management/PhabricatorSearchManagementWorkflow.php',
     'PhabricatorSearchNgrams' => 'applications/search/ngrams/PhabricatorSearchNgrams.php',
     'PhabricatorSearchNgramsDestructionEngineExtension' => 'applications/search/engineextension/PhabricatorSearchNgramsDestructionEngineExtension.php',
+    'PhabricatorSearchOpensearchController' => 'applications/search/controller/PhabricatorSearchOpensearchController.php',
     'PhabricatorSearchOrderController' => 'applications/search/controller/PhabricatorSearchOrderController.php',
     'PhabricatorSearchOrderField' => 'applications/search/field/PhabricatorSearchOrderField.php',
     'PhabricatorSearchRelationship' => 'applications/search/constants/PhabricatorSearchRelationship.php',
