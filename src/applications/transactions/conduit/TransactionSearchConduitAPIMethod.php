@@ -79,28 +79,37 @@ final class TransactionSearchConduitAPIMethod
       ));
 
     $with_phids = idx($constraints, 'phids');
+
+    if ($with_phids === array()) {
+      throw new Exception(
+        pht(
+          'Constraint "phids" to "transaction.search" requires nonempty list, '.
+          'empty list provided.'));
+    }
+
     if ($with_phids) {
       $xaction_query->withPHIDs($with_phids);
     }
 
     $xactions = $xaction_query->executeWithCursorPager($pager);
 
+    $comment_map = array();
     if ($xactions) {
       $template = head($xactions)->getApplicationTransactionCommentObject();
+      if ($template) {
 
-      $query = new PhabricatorApplicationTransactionTemplatedCommentQuery();
+        $query = new PhabricatorApplicationTransactionTemplatedCommentQuery();
 
-      $comment_map = $query
-        ->setViewer($viewer)
-        ->setTemplate($template)
-        ->withTransactionPHIDs(mpull($xactions, 'getPHID'))
-        ->execute();
+        $comment_map = $query
+          ->setViewer($viewer)
+          ->setTemplate($template)
+          ->withTransactionPHIDs(mpull($xactions, 'getPHID'))
+          ->execute();
 
-      $comment_map = msort($comment_map, 'getCommentVersion');
-      $comment_map = array_reverse($comment_map);
-      $comment_map = mgroup($comment_map, 'getTransactionPHID');
-    } else {
-      $comment_map = array();
+        $comment_map = msort($comment_map, 'getCommentVersion');
+        $comment_map = array_reverse($comment_map);
+        $comment_map = mgroup($comment_map, 'getTransactionPHID');
+      }
     }
 
     $modular_classes = array();
@@ -204,6 +213,9 @@ final class TransactionSearchConduitAPIMethod
         switch ($xaction->getTransactionType()) {
           case PhabricatorTransactions::TYPE_COMMENT:
             $type = 'comment';
+            break;
+          case PhabricatorTransactions::TYPE_CREATE:
+            $type = 'create';
             break;
         }
       }
