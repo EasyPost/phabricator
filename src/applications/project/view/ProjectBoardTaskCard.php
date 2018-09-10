@@ -105,6 +105,17 @@ final class ProjectBoardTaskCard extends Phobject {
       $card->setCoverImage($cover_file->getBestURI());
     }
 
+    $taskStatus = $task->getStatus();
+    $icon = ManiphestTaskStatus::getStatusIcon($taskStatus);
+    $iconView = id(new PHUIIconView())
+      ->setIcon($icon.' '.$bar_color)
+      ->setTooltip($taskStatus);
+    if ($task->isClosed()) {
+      $iconView->setIcon($icon.' grey');
+      $card->setBarColor('grey');
+    }
+    $card->addAttribute($iconView);
+
     if (ManiphestTaskPoints::getIsEnabled()) {
       $points = $task->getPoints();
       if ($points !== null) {
@@ -124,14 +135,6 @@ final class ProjectBoardTaskCard extends Phobject {
         ->setSlimShady(true);
       $card->addAttribute($subtype_tag);
     }
-
-    $icon = ManiphestTaskStatus::getStatusIcon($task->getStatus());
-    $icon = id(new PHUIIconView());
-    if ($task->isClosed()) {
-      $icon->setIcon($icon.' grey');
-      $card->setBarColor('grey');
-    }
-    $card->addAttribute($icon);
 
     $project_handles = $this->getProjectHandles();
 
