@@ -121,6 +121,9 @@ final class PhabricatorDiffusionApplication extends PhabricatorApplication {
           $this->getQueryRoutePattern() => 'DiffusionPushLogListController',
           'view/(?P<id>\d+)/' => 'DiffusionPushEventViewController',
         ),
+        'synclog/' => array(
+          $this->getQueryRoutePattern() => 'DiffusionSyncLogListController',
+        ),
         'pulllog/' => array(
           $this->getQueryRoutePattern() => 'DiffusionPullLogListController',
         ),

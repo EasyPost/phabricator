@@ -374,8 +374,17 @@ final class DiffusionRepositoryController extends DiffusionController {
       $action_view->addAction(
         id(new PhabricatorActionView())
           ->setName(pht('View Push Logs'))
-          ->setIcon('fa-list-alt')
+          ->setIcon('fa-upload')
           ->setHref($push_uri));
+
+      $pull_uri = $this->getApplicationURI(
+        'synclog/?repositories='.$repository->getPHID());
+
+      $action_view->addAction(
+        id(new PhabricatorActionView())
+          ->setName(pht('View Sync Logs'))
+          ->setIcon('fa-exchange')
+          ->setHref($pull_uri));
     }
 
     $pull_uri = $this->getApplicationURI(
@@ -384,7 +393,7 @@ final class DiffusionRepositoryController extends DiffusionController {
     $action_view->addAction(
       id(new PhabricatorActionView())
         ->setName(pht('View Pull Logs'))
-        ->setIcon('fa-list-alt')
+        ->setIcon('fa-download')
         ->setHref($pull_uri));
 
     return $action_view;
