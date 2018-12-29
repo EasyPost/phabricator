@@ -458,14 +458,9 @@ final class PhabricatorUser
   }
 
   public function loadPrimaryEmail() {
-    $email = new PhabricatorUserEmail();
-    $conn = $email->establishConnection('r');
-
-    return $this->loadOneRelative(
-      $email,
-      'userPHID',
-      'getPHID',
-      qsprintf($conn, '(isPrimary = 1)'));
+    return id(new PhabricatorUserEmail())->loadOneWhere(
+      'userPHID = %s AND isPrimary = 1',
+      $this->getPHID());
   }
 
 
@@ -1376,18 +1371,8 @@ final class PhabricatorUser
     return new PhabricatorUserTransactionEditor();
   }
 
-  public function getApplicationTransactionObject() {
-    return $this;
-  }
-
   public function getApplicationTransactionTemplate() {
     return new PhabricatorUserTransaction();
-  }
-
-  public function willRenderTimeline(
-    PhabricatorApplicationTransactionView $timeline,
-    AphrontRequest $request) {
-    return $timeline;
   }
 
 
