@@ -125,15 +125,11 @@ final class PhabricatorMailImplementationSendGridAdapter
 
     $headers = idx($this->params, 'headers', array());
 
-    // See SendGrid Support Ticket #29390; there's no explicit REST API support
-    // for CC right now but it works if you add a generic "Cc" header.
-    //
-    // SendGrid said this is supported:
-    //   "You can use CC as you are trying to do there [by adding a generic
-    //    header]. It is supported despite our limited documentation to this
-    //    effect, I am glad you were able to figure it out regardless. ..."
     if (idx($this->params, 'ccs')) {
-      $headers[] = array('Cc', implode(', ', $this->params['ccs']));
+      $ii = 0;
+      foreach (idx($this->params, 'ccs', array()) as $cc) {
+        $params['cc['.($ii++).']'] = $cc;
+      }
     }
 
     if ($headers) {
