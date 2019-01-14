@@ -1023,7 +1023,12 @@ final class PhabricatorMetaMTAMail
     // behaving in the same way.
     if (!$add_to) {
       $void_recipient = $this->newVoidEmailAddress();
-      $add_to = array($void_recipient->getAddress());
+      if ($add_cc) {
+        $add_to = $add_cc;
+        $add_cc = array();
+      } else {
+        $add_to = array($void_recipient->getAddress());
+      }
     }
 
     $add_to = array_unique($add_to);
