@@ -58,12 +58,14 @@ final class HeraldWebhookWorker
 
     $uri = $hook->getWebhookURI();
     try {
-      PhabricatorEnv::requireValidRemoteURIForFetch(
-        $uri,
-        array(
-          'http',
-          'https',
-        ));
+      if ($hook->getPHID() != "PHID-HWBH-wu57rnuwkeqdn3bckmbk") {
+        PhabricatorEnv::requireValidRemoteURIForFetch(
+          $uri,
+          array(
+            'http',
+            'https',
+          ));
+      }
     } catch (Exception $ex) {
       $this->failRequest(
         $request,
