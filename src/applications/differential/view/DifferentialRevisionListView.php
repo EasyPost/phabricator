@@ -167,6 +167,8 @@ final class DifferentialRevisionListView extends AphrontView {
             )
           )
         );
+      } else {
+        $item->addAttribute(phutil_tag('em', array(), pht('No Repository')));
       }
 
       if ($reviewer_phids[$key]) {
