@@ -145,6 +145,30 @@ final class DifferentialRevisionListView extends AphrontView {
         $more = null;
       }
 
+      $repositoryPHID = $revision->getRepositoryPHID();
+      if ($repositoryPHID) {
+        $repository = $revision->getRepository();
+        $item->addAttribute(
+          array(
+            pht('Repository:'),
+            ' ',
+            javelin_tag(
+              'a',
+              array(
+                'href' => $repository->getURI(),
+                'sigil' => 'has-tooltip',
+                'meta' => array(
+                  'tip' => $repository->getMonogram(),
+                  'align' => 'E',
+                  'size' => 400,
+                ),
+              ),
+              $repository->getName()
+            )
+          )
+        );
+      }
+
       if ($reviewer_phids[$key]) {
         $item->addAttribute(
           array(
@@ -156,24 +180,6 @@ final class DifferentialRevisionListView extends AphrontView {
           ));
       } else {
         $item->addAttribute(phutil_tag('em', array(), pht('No Reviewers')));
-      }
-
-      $repositoryPHID = $revision->getRepositoryPHID();
-      if ($repositoryPHID) {
-        $repository = $revision->getRepository();
-        $item->AddAttribute(
-          array(
-            pht('Repository:'),
-            ' ',
-            javelin_tag(
-              'a',
-              array(
-                'href' => $repository->getURI(),
-              ),
-              $repository->getName()
-            )
-          )
-        );
       }
 
       $item->setEpoch($revision->getDateModified());
