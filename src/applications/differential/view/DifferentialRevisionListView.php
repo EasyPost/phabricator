@@ -158,6 +158,24 @@ final class DifferentialRevisionListView extends AphrontView {
         $item->addAttribute(phutil_tag('em', array(), pht('No Reviewers')));
       }
 
+      $repositoryPHID = $revision->getRepositoryPHID();
+      if ($repositoryPHID) {
+        $repository = $revision->getRepository();
+        $item->AddAttribute(
+          array(
+            pht('Repository:'),
+            ' ',
+            javelin_tag(
+              'a',
+              array(
+                'href' => $repository->getURI(),
+              ),
+              $repository->getName()
+            )
+          )
+        );
+      }
+
       $item->setEpoch($revision->getDateModified());
 
       if ($revision->isClosed()) {
