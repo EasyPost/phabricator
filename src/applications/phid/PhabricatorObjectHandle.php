@@ -378,6 +378,7 @@ final class PhabricatorObjectHandle
     }
 
     $circle = null;
+    /*
     if ($this->availability != self::AVAILABILITY_FULL) {
       $classes[] = 'handle-availability-'.$this->availability;
       $circle = array(
@@ -390,6 +391,7 @@ final class PhabricatorObjectHandle
         ' ',
       );
     }
+     */
 
     if ($this->getType() == PhabricatorPeopleUserPHIDType::TYPECONST) {
       $classes[] = 'phui-link-person';
