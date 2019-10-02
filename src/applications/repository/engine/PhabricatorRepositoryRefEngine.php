@@ -469,11 +469,26 @@ final class PhabricatorRepositoryRefEngine
         return phutil_split_lines($stdout, $retain_newlines = false);
       case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
         if ($all_closing_heads) {
-          list($stdout) = $this->getRepository()->execxLocalCommand(
-            'log --format=%s %s --not %Ls',
-            '%H',
-            $new_head,
-            $all_closing_heads);
+
+          // See PHI1474. This length of list may exceed the maximum size of
+          // a command line argument list, so pipe the list in using "--stdin"
+          // instead.
+
+          $ref_list = array();
+          $ref_list[] = $new_head;
+          foreach ($all_closing_heads as $old_head) {
+            $ref_list[] = '^'.$old_head;
+          }
+          $ref_list[] = '--';
+          $ref_list = implode("\n", $ref_list)."\n";
+
+          $future = $this->getRepository()->getLocalCommandFuture(
+            'log --format=%s --stdin',
+            '%H');
+
+          list($stdout) = $future
+            ->write($ref_list)
+            ->resolvex();
         } else {
           list($stdout) = $this->getRepository()->execxLocalCommand(
             'log --format=%s %s',
@@ -498,7 +513,7 @@ final class PhabricatorRepositoryRefEngine
   private function setCloseFlagOnCommits(array $identifiers) {
     $repository = $this->getRepository();
     $commit_table = new PhabricatorRepositoryCommit();
-    $conn_w = $commit_table->establishConnection('w');
+    $conn = $commit_table->establishConnection('w');
 
     $vcs = $repository->getVersionControlSystem();
     switch ($vcs) {
@@ -515,13 +530,27 @@ final class PhabricatorRepositoryRefEngine
         throw new Exception(pht("Unknown repository type '%s'!", $vcs));
     }
 
-    $all_commits = queryfx_all(
-      $conn_w,
-      'SELECT id, phid, commitIdentifier, importStatus FROM %T
-        WHERE repositoryID = %d AND commitIdentifier IN (%Ls)',
-      $commit_table->getTableName(),
-      $repository->getID(),
-      $identifiers);
+    $identifier_tokens = array();
+    foreach ($identifiers as $identifier) {
+      $identifier_tokens[] = qsprintf(
+        $conn,
+        '%s',
+        $identifier);
+    }
+
+    $all_commits = array();
+    foreach (PhabricatorLiskDAO::chunkSQL($identifier_tokens) as $chunk) {
+      $rows = queryfx_all(
+        $conn,
+        'SELECT id, phid, commitIdentifier, importStatus FROM %T
+          WHERE repositoryID = %d AND commitIdentifier IN (%LQ)',
+        $commit_table->getTableName(),
+        $repository->getID(),
+        $chunk);
+      foreach ($rows as $row) {
+        $all_commits[] = $row;
+      }
+    }
 
     $closeable_flag = PhabricatorRepositoryCommit::IMPORTED_CLOSEABLE;
 
@@ -539,7 +568,7 @@ final class PhabricatorRepositoryRefEngine
 
       if (!($row['importStatus'] & $closeable_flag)) {
         queryfx(
-          $conn_w,
+          $conn,
           'UPDATE %T SET importStatus = (importStatus | %d) WHERE id = %d',
           $commit_table->getTableName(),
           $closeable_flag,
