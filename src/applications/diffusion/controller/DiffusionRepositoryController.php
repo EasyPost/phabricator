@@ -174,7 +174,7 @@ final class DiffusionRepositoryController extends DiffusionController {
       ->setTitle(
         array(
           $repository->getName(),
-          $repository->getDisplayName(),
+          $repository->getMonogram(),
         ))
       ->setCrumbs($crumbs)
       ->appendChild(array(
@@ -336,7 +336,14 @@ final class DiffusionRepositoryController extends DiffusionController {
       ->setImage($repository->getProfileImageURI())
       ->setImageEditURL('/diffusion/picture/'.$repository->getID().'/')
       ->addActionItem($search)
-      ->addClass('diffusion-profile-header');
+      ->addClass('diffusion-profile-header')
+      ->addTag(
+        id(new PHUITagView())
+          ->setType(PHUITagView::TYPE_OUTLINE)
+          ->setStyle('text-transform: none')
+          ->setHref($repository->getURI())
+          ->setColor('blue')
+          ->setName($repository->getMonogram()));
 
     if (!$repository->isTracked()) {
       $header->setStatus('fa-ban', 'dark', pht('Inactive'));

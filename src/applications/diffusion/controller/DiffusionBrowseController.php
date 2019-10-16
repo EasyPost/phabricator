@@ -91,7 +91,7 @@ final class DiffusionBrowseController extends DiffusionController {
       ->setTitle(
         array(
           nonempty(basename($drequest->getPath()), '/'),
-          $drequest->getRepository()->getDisplayName(),
+          $drequest->getRepository()->getMonogram(),
         ))
       ->setCrumbs($crumbs)
       ->appendChild($view);
@@ -262,7 +262,7 @@ final class DiffusionBrowseController extends DiffusionController {
         $owners_list,
       ));
 
-    $title = array($basename, $repository->getDisplayName());
+    $title = array($basename, $repository->getMonogram());
 
     return $this->newPage()
       ->setTitle($title)
@@ -374,7 +374,7 @@ final class DiffusionBrowseController extends DiffusionController {
     return $this->newPage()
       ->setTitle(array(
           nonempty(basename($drequest->getPath()), '/'),
-          $repository->getDisplayName(),
+          $repository->getMonogram(),
         ))
       ->setCrumbs($crumbs)
       ->appendChild(
