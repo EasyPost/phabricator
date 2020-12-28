@@ -56,6 +56,9 @@ if ($authstruct === null) {
     $key_argv = array();
     $object = $ssh_key->getObject();
     if ($object instanceof PhabricatorUser) {
+      if (!$object->isUserActivated()) {
+        continue;
+      }
       $key_argv[] = '--phabricator-ssh-user';
       $key_argv[] = $object->getUsername();
     } else if ($object instanceof AlmanacDevice) {
