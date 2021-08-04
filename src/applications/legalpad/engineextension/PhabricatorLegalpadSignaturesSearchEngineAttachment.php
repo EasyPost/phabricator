@@ -25,11 +25,13 @@ final class PhabricatorLegalpadSignaturesSearchEngineAttachment
         'isExemption' => $signature->getIsExemption(),
         'signerName' => $signature->getSignerName(),
         'signerEmail' => $signature->getSignerEmail(),
+        'documentVersion' => $signature->getDocumentVersion(),
+        'dateCreated' => (int)$signature->getDateCreated(),
       );
     }
 
     return array(
-      'signatures' => $signatures,
+      'signatures' => $signatures
     );
   }
 

@@ -18,6 +18,7 @@ final class PhabricatorLegalpadBodySearchEngineAttachment
   public function getAttachmentForObject($object, $data, $spec) {
     return array(
       'body' => $object->getDocumentBody()->getText(),
+      'preamble' => $object->getPreamble(),
     );
   }
 

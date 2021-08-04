@@ -88,7 +88,7 @@ final class LegalpadDocumentSignature
   }
 
   public function getIsExemption() {
-    return boolval($this->isExemption);
+    return (bool)$this->isExemption;
   }
 
   public function getExemptionPHID() {
@@ -101,6 +101,10 @@ final class LegalpadDocumentSignature
 
   public function getSignerEmail() {
     return $this->signerEmail;
+  }
+
+  public function getDocumentVersion() {
+    return (int)$this->documentVersion;
   }
 
 /* -(  PhabricatorConduitResultInterface  )---------------------------------- */

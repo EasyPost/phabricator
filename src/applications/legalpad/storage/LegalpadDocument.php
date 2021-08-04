@@ -160,6 +160,10 @@ final class LegalpadDocument extends LegalpadDAO
     return idx($map, $type, 'fa-user grey');
   }
 
+  public function getPreamble() {
+    return $this->preamble;
+  }
+
 
 /* -(  PhabricatorSubscribableInterface  )----------------------------------- */
 
@@ -196,7 +200,7 @@ final class LegalpadDocument extends LegalpadDAO
       'title' => $this->title,
       'creatorPHID' => $this->creatorPHID,
       'versions' => $this->versions,
-      'requireSignature' => boolval($this->requireSignature),
+      'requireSignature' => (bool)$this->requireSignature,
     );
   }
 

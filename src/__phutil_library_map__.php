@@ -3659,7 +3659,7 @@ phutil_register_library_map(array(
     'PhabricatorLabelProfileMenuItem' => 'applications/search/menuitem/PhabricatorLabelProfileMenuItem.php',
     'PhabricatorLanguageSettingsPanel' => 'applications/settings/panel/PhabricatorLanguageSettingsPanel.php',
     'PhabricatorLegalpadApplication' => 'applications/legalpad/application/PhabricatorLegalpadApplication.php',
-    'PhabricatorLegalpadBodySearchEngineAttachment' => 'applications/legalpad/engineextension/LegalpadDocumentBodySearchEngineAttachment.php',
+    'PhabricatorLegalpadBodySearchEngineAttachment' => 'applications/legalpad/engineextension/PhabricatorLegalpadBodySearchEngineAttachment.php',
     'PhabricatorLegalpadDocumentPHIDType' => 'applications/legalpad/phid/PhabricatorLegalpadDocumentPHIDType.php',
     'PhabricatorLegalpadDocumentSignaturePHIDType' => 'applications/legalpad/phid/PhabricatorLegalpadDocumentSignaturePHIDType.php',
     'PhabricatorLegalpadSignaturePolicyRule' => 'applications/legalpad/policyrule/PhabricatorLegalpadSignaturePolicyRule.php',
