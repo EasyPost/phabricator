@@ -220,7 +220,7 @@ final class PhutilRemarkupEngine extends PhutilMarkupEngine {
 
     foreach ($blocks as $key => $block) {
       $min = $block['start'];
-      $max = $min + $block['num_lines'];
+      $max = min($min + $block['num_lines'], sizeof($text));
 
       $lines = '';
       for ($ii = $min; $ii < $max; $ii++) {
