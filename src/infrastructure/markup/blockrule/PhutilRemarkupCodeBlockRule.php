@@ -44,7 +44,14 @@ final class PhutilRemarkupCodeBlockRule extends PhutilRemarkupBlockRule {
   }
 
   public function markupText($text, $children) {
+    $default_lang = null;
+
     if (preg_match('/^\s*```/', $text)) {
+      // Look for GFM-style ```langname blocks and handle them
+      if (preg_match('/\A\s*``` *([a-z]+)\n/', $text, $matches)) {
+        $default_lang = $matches[1];
+        $text = preg_replace('/\A\s*``` *([a-z]+)\n/', '', $text);
+      }
       // If this is a ```-style block, trim off the backticks and any leading
       // blank line.
       $text = preg_replace('/^\s*```(\s*\n)?/', '', $text);
@@ -58,7 +65,7 @@ final class PhutilRemarkupCodeBlockRule extends PhutilRemarkupBlockRule {
 
     $options = array(
       'counterexample'  => false,
-      'lang'            => null,
+      'lang'            => $default_lang,
       'name'            => null,
       'lines'           => null,
     );
