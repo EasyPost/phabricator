@@ -48,9 +48,9 @@ final class PhutilRemarkupCodeBlockRule extends PhutilRemarkupBlockRule {
 
     if (preg_match('/^\s*```/', $text)) {
       // Look for GFM-style ```langname blocks and handle them
-      if (preg_match('/\A\s*``` *([a-z]+)\n/', $text, $matches)) {
+      if (preg_match('/^\s*``` *([a-z]+)\n/', $text, $matches)) {
         $default_lang = $matches[1];
-        $text = preg_replace('/\A\s*``` *([a-z]+)\n/', '', $text);
+        $text = preg_replace('/^\s*``` *([a-z]+)\n/', '', $text);
       }
       // If this is a ```-style block, trim off the backticks and any leading
       // blank line.
