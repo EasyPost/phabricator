@@ -2164,6 +2164,10 @@ abstract class PhabricatorEditEngine
       $editor->setContinueOnMissingFields(true);
     }
 
+    if ($viewer->getUserName() == 'points-migrator') {
+      $editor->setIsSilent(true);
+    }
+
     $xactions = $editor->applyTransactions($object, $xactions);
 
     $xactions_struct = array();
