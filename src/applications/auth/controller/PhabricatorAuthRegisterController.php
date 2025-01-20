@@ -286,7 +286,7 @@ final class PhabricatorAuthRegisterController
         }
       }
 
-      if ($can_edit_username) {
+      if ($can_edit_username || $is_setup) {
         $value_username = $request->getStr('username');
         if (!strlen($value_username)) {
           $e_username = pht('Required');
