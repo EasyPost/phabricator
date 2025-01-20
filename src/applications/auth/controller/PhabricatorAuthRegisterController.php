@@ -520,7 +520,7 @@ final class PhabricatorAuthRegisterController
               ->setAuthProvider($provider)));
     }
 
-    if ($can_edit_username) {
+    if ($can_edit_username || $is_setup) {
       $form->appendChild(
         id(new AphrontFormTextControl())
           ->setLabel(pht('Username'))
